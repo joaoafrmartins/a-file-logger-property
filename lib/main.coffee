@@ -6,7 +6,7 @@
 
 { sync: mkdirSync } = require 'mkdirp'
 
-module.exports = (next, file) ->
+module.exports = (file, next) ->
 
   if typeof file isnt "string" then return next new Error(
 
