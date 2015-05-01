@@ -6,23 +6,31 @@
 
 { sync: mkdirSync } = require 'mkdirp'
 
-module.exports = (file, next) ->
+module.exports = (options, next) ->
 
-  if typeof file isnt "string" then return next new Error(
+  { file, stream } = options
 
-    "invalid log file: #{file}"
+  logstream = (f) ->
 
-  )
+    if typeof f is undefined then file = "log"
 
-  logfile = resolve file
+    if typeof f isnt "string" then return next new Error(
 
-  dir = dirname logfile
+      "invalid log file: #{f}"
 
-  if not existsSync dir then  mkdirSync dir
+    )
 
-  if not existsSync logfile then writeFileSync logfile, ''
+    lf = resolve f
 
-  stream = createWriteStream logfile, { flags: 'a' }
+    dir = dirname lf
+
+    if not existsSync dir then  mkdirSync dir
+
+    if not existsSync lf then writeFileSync lf, ''
+
+    createWriteStream lf, { flags: 'a' }
+
+  stream ?= logstream file
 
   write = (level, args) ->
 
