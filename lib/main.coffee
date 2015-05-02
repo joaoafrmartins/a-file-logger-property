@@ -32,9 +32,35 @@ module.exports = (options, next) ->
 
   stream ?= logstream file
 
+  months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ]
+
+  pad = (num) ->
+
+    str = String(num)
+
+    if str.length is 1 then padded = '0' else padded = ''
+
+    "#{padded}#{str}"
+
+  format = (datetime) ->
+
+
+    date = pad datetime.getUTCDate()
+    hour = pad datetime.getUTCHours()
+    mins = pad datetime.getUTCMinutes()
+    secs = pad datetime.getUTCSeconds()
+    year = pad datetime.getUTCFullYear()
+    month = months[datetime.getUTCMonth()]
+
+    "#{date}/#{month}/#{year}:#{hour}:#{mins}:#{secs} +0000"
+
+
   write = (level, args) ->
 
-    message = [level, (new Date).toString()]
+    message = [level, format new Date]
 
     args.map (arg) ->
 
