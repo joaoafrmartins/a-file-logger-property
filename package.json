@@ -20,5 +20,7 @@
   },
   "bugs": {
     "url": "https://github.com/joaoafrmartins/a-file-logger-property/issues"
-  }
+  },
+  "author": "João Afonso Martins",
+  "license": "MIT"
 }
